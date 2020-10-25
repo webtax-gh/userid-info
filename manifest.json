@@ -2,6 +2,6 @@
     "name": "UserID Info",
     "description": "Grabs info about a UserID and then shows it to you.",
     "author": "webtax#9393",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT"
   }

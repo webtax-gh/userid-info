@@ -7,6 +7,7 @@ class UserIDInfo extends Plugin {
             aliases: ['useridinfo','idinfo'],
             label: 'UserID Info',
             usage: '{c} <id>',
+            description: 'Lookup user info from a user id',
             executor: (id) => {
                 return this.getInfo(id)
             }
