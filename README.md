@@ -1,2 +1,8 @@
 # userid-info
-A powercord plugin to quickly get info about a userid
+A powercord plugin to quickly get info about a userid.
+
+Usage: `.userid <userid>`
+
+Example:
+![img](https://i.imgur.com/QxkfyrU.png)
+
