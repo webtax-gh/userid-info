@@ -17,8 +17,9 @@ class UserIDInfo extends Plugin {
     async getInfo(id) {
         try {
             let userObject = await (await require('powercord/webpack').getModule(['acceptAgreements', 'getUser'])).getUser(String(id));
-            let userName = userObject['username'] + '#' + userObject['discriminator'];
+            let userName = userObject['tag'];
             let avatarURL = userObject['avatarURL'];
+            let createdAt = userObject['createdAt']
             if (userObject['avatarURL'].includes('assets')) {
                 avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
             }
@@ -46,6 +47,10 @@ class UserIDInfo extends Plugin {
                     name: 'Avatar',
                     value: avatarURL,
                     inline: false
+                }, {
+                    name: 'Created at',
+                    value: createdAt.toString(),
+                    inline: false
                 }]
             }
             return {
@@ -53,6 +58,7 @@ class UserIDInfo extends Plugin {
                 embed: true
             }
         } catch (err) {
+            console.error(err)
             return {
                 result: 'Incorrect UserID.'
             }
