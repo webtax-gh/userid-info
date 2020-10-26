@@ -20,7 +20,7 @@ class UserIDInfo extends Plugin {
             let userName = userObject['username'] + '#' + userObject['discriminator'];
             let avatarURL = userObject['avatarURL'];
             if (userObject['avatarURL'].includes('assets')) {
-                let avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
+                avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
             }
             let isBot = String(userObject['bot']);
             const embed = {
