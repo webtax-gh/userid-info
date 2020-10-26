@@ -18,35 +18,17 @@ class UserIDInfo extends Plugin {
         try {
             let userObject = await (await require('powercord/webpack').getModule(['acceptAgreements', 'getUser'])).getUser(String(id));
             let userName = userObject['username'] + '#' + userObject['discriminator'];
-            let avatarURL = userObject['avatarURL'];
             if (userObject['avatarURL'].includes('assets')) {
                 let avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
+            } else {
+                let avatarURL = userObject['avatarURL'];
             }
             let isBot = String(userObject['bot']);
+            let resultText = 'ID = ' + id + '\nUsername = ' + userName + '\nAvatar = ' + avatarURL + '\nBot = ' + isBot;
             const embed = {
                 type: 'rich',
-                title: `UserID Lookup for ${userName}`,
-                fields: [{
-                    name: 'ID',
-                    value: `${id}`,
-                    inline: false
-                }, {
-                    name: 'Tag',
-                    value: `<@${id}>`,
-                    inline: false
-                }, {
-                    name: 'Username',
-                    value: userName,
-                    inline: false
-                }, {
-                    name: 'Bot',
-                    value: `${isBot}`,
-                    inline: false
-                }, {
-                    name: 'Avatar',
-                    value: avatarURL,
-                    inline: false
-                }]
+                title: `UserID Lookup`,
+                description: resultText
             }
             return {
                 result: embed,
