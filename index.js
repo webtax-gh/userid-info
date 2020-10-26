@@ -1,5 +1,3 @@
-const { Plugin } = require('powercord/entities');
-
 class UserIDInfo extends Plugin {
     startPlugin() {
         powercord.api.commands.registerCommand({
@@ -18,42 +16,46 @@ class UserIDInfo extends Plugin {
         try {
             let userObject = await (await require('powercord/webpack').getModule(['acceptAgreements', 'getUser'])).getUser(String(id));
             let userName = userObject['username'] + '#' + userObject['discriminator'];
-            let avatarURL = userObject['avatarURL'];
+            if (userObject['avatarURL'].includes('assets')) {
+                let avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
+            } else {
+                let avatarURL = userObject['avatarURL'];
+            }
             let isBot = String(userObject['bot']);
+            let resultText = 'ID = ' + id + '\nUsername = ' + userName + '\nAvatar = ' + avatarURL + '\nBot = ' + isBot;
             const embed = {
                 type: 'rich',
                 title: `UserID Lookup for ${userName}`,
-                fields: [
-                    {
-                        name: 'ID',
-                        value: `${id}`,
-                        inline: true
-                    }, {
-                        name: 'Tag',
-                        value: `<@${id}>`,
-                        inline: true
-                    }, {
-                        name: 'Username',
-                        value: userName,
-                        inline: true
-                    }, {
-                        name: 'Bot',
-                        value: `${isBot}`,
-                        inline: true
-                    }, {
-                        name: 'Avatar',
-                        value: avatarURL,
-                        inline: true
-                    }
-                ]
+                fields: [{
+                    name: 'ID',
+                    value: `${id}`,
+                    inline: true
+                }, {
+                    name: 'Tag',
+                    value: `<@${id}>`,
+                    inline: true
+                }, {
+                    name: 'Username',
+                    value: userName,
+                    inline: true
+                }, {
+                    name: 'Bot',
+                    value: `${isBot}`,
+                    inline: true
+                }, {
+                    name: 'Avatar',
+                    value: avatarURL,
+                    inline: true
+                }]
             }
             return {
                 result: embed,
                 embed: true
             }
-        }
-        catch (err) {
-            return { result: 'Incorrect UserID.' }
+        } catch (err) {
+            return {
+                result: 'Incorrect UserID.'
+            }
         }
     }
 
