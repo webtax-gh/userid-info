@@ -1,3 +1,5 @@
+const { Plugin } = require('powercord/entities');
+
 class UserIDInfo extends Plugin {
     startPlugin() {
         powercord.api.commands.registerCommand({
@@ -16,36 +18,34 @@ class UserIDInfo extends Plugin {
         try {
             let userObject = await (await require('powercord/webpack').getModule(['acceptAgreements', 'getUser'])).getUser(String(id));
             let userName = userObject['username'] + '#' + userObject['discriminator'];
+            let avatarURL = userObject['avatarURL'];
             if (userObject['avatarURL'].includes('assets')) {
                 let avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
-            } else {
-                let avatarURL = userObject['avatarURL'];
             }
             let isBot = String(userObject['bot']);
-            let resultText = 'ID = ' + id + '\nUsername = ' + userName + '\nAvatar = ' + avatarURL + '\nBot = ' + isBot;
             const embed = {
                 type: 'rich',
                 title: `UserID Lookup for ${userName}`,
                 fields: [{
                     name: 'ID',
                     value: `${id}`,
-                    inline: true
+                    inline: false
                 }, {
                     name: 'Tag',
                     value: `<@${id}>`,
-                    inline: true
+                    inline: false
                 }, {
                     name: 'Username',
                     value: userName,
-                    inline: true
+                    inline: false
                 }, {
                     name: 'Bot',
                     value: `${isBot}`,
-                    inline: true
+                    inline: false
                 }, {
                     name: 'Avatar',
                     value: avatarURL,
-                    inline: true
+                    inline: false
                 }]
             }
             return {
