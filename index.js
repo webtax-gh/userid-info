@@ -18,10 +18,7 @@ class UserIDInfo extends Plugin {
         try {
             let userObject = await (await require('powercord/webpack').getModule(['acceptAgreements', 'getUser'])).getUser(String(id));
             let userName = userObject['username'] + '#' + userObject['discriminator'];
-            let avatarURL = userObject['avatarURL'];
-            if (userObject['avatarURL'].includes('assets')) {
-                avatarURL = 'https://canary.discord.com' + userObject['avatarURL'];
-            }
+            let avatarURL = 'https://cdn.discordapp.com/avatars/' + id + '/' + userObject['avatar'];
             let isBot = String(userObject['bot']);
             let unixTime = (id / 4194304) + 1420070400000;
             let jsTime = new Date(unixTime);
