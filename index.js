@@ -29,6 +29,12 @@ class UserIDInfo extends Plugin {
             const embed = {
                 type: 'rich',
                 title: `UserID Lookup for ${userName}`,
+                thumbnail: {
+                  url: avatarURL,
+                  proxy_url: avatarURL,
+                  height: 128,
+                  width: 128
+                },
                 fields: [{
                     name: 'ID',
                     value: `${id}`,
