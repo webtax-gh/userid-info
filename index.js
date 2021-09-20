@@ -9,6 +9,9 @@ class UserIDInfo extends Plugin {
             usage: '{c} <id>',
             description: 'Lookup user info from a user id',
             executor: (id) => {
+                if (id.toString().includes('@')) {
+                    id = id.toString().split('!').pop().split('>')[0]
+                }
                 return this.getInfo(id)
             }
         })
