@@ -43,6 +43,9 @@ class UserInfo extends Plugin {
 				if (document.querySelector('#user-context')) {
 					const instance = getOwnerInstance(document.querySelector('#user-context'));
 					user = (instance?._reactInternals || instance?._reactInternalFiber)?.return?.memoizedProps?.user;
+					if (document.querySelector('#user-context').getBoundingClientRect().bottom > window.innerHeight) {
+						(instance?._reactInternals || instance?._reactInternalFiber)?.return.memoizedProps.onHeightUpdate();
+					}
 				}
 
 				if (!user) {
@@ -86,7 +89,6 @@ class UserInfo extends Plugin {
 					children.push([React.createElement(Menu.MenuSeparator), React.createElement(Menu.MenuGroup, {}, getUserInfo)]);
 				}
 			}
-
 			return args;
 		}, true);
 
