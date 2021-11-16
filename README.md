@@ -1,11 +1,7 @@
 # userid-info
-A powercord plugin to quickly get info about a userid.
+A powercord plugin to quickly get info about a user.
 
-## Join my server
-Join this server for support & really anything [discord.gg/5nAw2C5Y2e](https://discord.gg/5nAw2C5Y2e)
+Usage: `.userinfo <userid | mention>` or right click a user.
 
-Usage: `.userid <userid>`
-
-Example:
-![img](https://i.imgur.com/LcU37Ge.png)
-
+Example:\
+![image](https://user-images.githubusercontent.com/58155937/141900956-0f8277de-9875-459d-b605-f870b02acafb.png)
