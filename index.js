@@ -57,10 +57,6 @@ class UserInfo extends Plugin {
 
 								const userInfo = await this.getInfo(user.id);
 								const received = createBotMessage(channels.getChannelId(), "");
-								received.author = {
-									username: 'Powercord',
-									avatar: 'powercord'
-								};
 								if (userInfo.embed) {
 									received.embeds = [userInfo.result];
 								} else {
