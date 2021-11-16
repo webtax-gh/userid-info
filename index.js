@@ -1,17 +1,26 @@
 const { Plugin } = require('powercord/entities');
-const { React, getModule, messages, channels } = require('powercord/webpack')
+const { React, getModule, channels } = require('powercord/webpack')
 const { inject, uninject } = require('powercord/injector');
 const { findInReactTree, getOwnerInstance } = require('powercord/util');
 
+const { createBotMessage } = getModule(["createBotMessage"], false);
+const { receiveMessage } = getModule(["receiveMessage"], false);
 
-class UserIDInfo extends Plugin {
+const { OutputManager } = require('./utils');
+
+class UserInfo extends Plugin {
+	constructor() {
+		super();
+		this.OutputManager = new OutputManager('User Info', {});
+	}
+
 	async startPlugin() {
 		powercord.api.commands.registerCommand({
-			command: 'userid',
-			aliases: ['useridinfo', 'idinfo'],
-			label: 'UserID Info',
-			usage: '{c} <id>',
-			description: 'Lookup user info from a user id',
+			command: 'userinfo',
+			aliases: ['useridinfo', 'idinfo', 'userinfo'],
+			label: 'User Info',
+			usage: '{c} <id | mention>',
+			description: 'Lookup user info from an ID or Mention',
 			executor: (id) => {
 				if (id.toString().includes('@')) {
 					id = id.toString().split('!').pop().split('>')[0]
@@ -39,11 +48,33 @@ class UserIDInfo extends Plugin {
 				if (!user) {
 					return args;
 				}
-				console.log(user.id)
 				const getUserInfo = React.createElement(Menu.MenuItem, {
 					id: 'get-user-info',
 					label: 'User Info',
-					action: () => messages.receiveMessage(channels.getChannelId(), { content:'some how need to send embed' })
+					action: async () => {
+						try {
+							if (channels.getChannelId()) {
+
+								const userInfo = await this.getInfo(user.id);
+								const received = createBotMessage(channels.getChannelId(), "");
+								received.author = {
+									username: 'Powercord',
+									avatar: 'powercord'
+								};
+								if (userInfo.embed) {
+									received.embeds = [userInfo.result];
+								} else {
+									received.content = userInfo.result;
+								}
+								return receiveMessage(received.channel_id, received);
+							} else {
+								this.OutputManager.error("Not looking at any channel")
+							}
+						} catch (err) {
+							console.log(err)
+							this.OutputManager.error(err)
+						}
+					}
 
 				});
 
@@ -117,14 +148,14 @@ class UserIDInfo extends Plugin {
 			}
 		} catch (err) {
 			return {
-				result: 'Incorrect UserID.'
+				result: 'Not a valid user or ID'
 			}
 		}
 	}
 
 	pluginWillUnload() {
-		powercord.api.commands.unregisterCommand('userid');
+		powercord.api.commands.unregisterCommand('userinfo');
 		uninject('user-info')
 	}
 }
-module.exports = UserIDInfo;
+module.exports = UserInfo;
